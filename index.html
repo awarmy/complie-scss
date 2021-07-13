@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>complie scss</title>
+</head>
+<body>
+    <textarea name="result" id="result" cols="30" rows="10"></textarea>
+    <script src="./js/sass.js"></script>
+    <script>
+        var css = `
+        #checkMsg .layui-icon,
+.check_msg_total .check_msg_ctr .check_msg_tit {
+    color: #fff !important;
+}
+
+.check_msg_total .check_msg_ctr {
+    background: unset !important;
+}
+
+/*互动对话中的字的颜色*/
+.vtc-comment .comment-items {
+    color: #fff !important;
+}
+
+.vtctabs {
+    &::after {
+        font-size: 0px;
+        content: '';
+        bottom: -2px;
+        height: 0px;
+        position: absolute;
+        background-image: linear-gradient(rgba(243, 243, 243, 1), rgba(255, 255, 255, 0.7));
+        width: 100%;
+        display: block;
+        z-index: -1;
+    }
+}
+        `;
+        var options = {
+            style:1,
+            comments:'',
+            precision:-1,
+            indentedSyntax:'',
+            indent:'',//  
+            linefeed:'',//\\n
+            sourceMapFile:'file',
+            sourceMapRoot:'root',
+            inputPath:'stdin',
+            outputPath:'stdout'
+        }
+        var sass = new Sass();
+        sass.options(options,function(){
+            sass.compile(css,function(result){
+                // console.log(JSON.stringify(result.map, null, 2));
+                // console.log(result.text);
+                document.getElementById("result").value = result.text;
+                var style = document.createElement("style");
+                style.type = 'text/css';
+                style.innerHTML = result.text;
+                document.getElementsByTagName('head').item(0).appendChild(style);
+            })
+        })
+    </script>
+</body>
+</html>
